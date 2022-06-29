@@ -1,0 +1,12 @@
+version: '3'
+services:
+  krakend-gateway:
+    image: devopsfaith/krakend
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./krakend.json:/etc/krakend/krakend.json
+  cats-service:
+    build: ../cats-service/
+  dogs-service:
+    build: ../dogs-service/

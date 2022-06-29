@@ -1,0 +1,45 @@
+{
+  "$schema": "https://www.krakend.io/schema/v3.json",
+  "version": 3,
+  "name": "KrakenD - API Gateway",
+  "timeout": "3000ms",
+  "cache_ttl": "300s",
+  "output_encoding": "json",
+  "port": 8000,
+  "endpoints": [
+    {
+      "endpoint": "/dogs",
+      "method": "GET",
+      "output_encoding": "string",
+      "backend": [
+        {
+          "url_pattern": "/",
+          "encoding": "string",
+          "sd": "static",
+          "method": "GET",
+          "host": [
+            "http://dogs-service:8080/"
+          ],
+          "disable_host_sanitize": false
+        }
+      ]
+    },
+    {
+      "endpoint": "/cats",
+      "method": "GET",
+      "output_encoding": "string",
+      "backend": [
+        {
+          "url_pattern": "/",
+          "encoding": "string",
+          "sd": "static",
+          "method": "GET",
+          "host": [
+            "http://cats-service:8080/"
+          ],
+          "disable_host_sanitize": false
+        }
+      ]
+    }
+  ]
+}

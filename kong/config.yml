@@ -1,0 +1,23 @@
+_format_version: "2.1"
+
+services:
+  - name: dogs-service
+    host: dogs-service
+    port: 8080
+    protocol: http
+    routes:
+      - name: dog-route
+        paths:
+          - /dogs
+        protocols:
+          - http
+  - name: cats-service
+    host: cats-service
+    port: 8080
+    protocol: http
+    routes:
+      - name: cat-route
+        paths:
+          - /cats
+        protocols:
+          - http
