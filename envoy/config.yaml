@@ -1,10 +1,10 @@
-admin:
-  access_log_path: /tmp/admin_access.log
-  address:
-    socket_address:
-      protocol: TCP
-      address: 0.0.0.0
-      port_value: 9901
+# admin:
+#   access_log_path: /tmp/admin_access.log
+#   address:
+#     socket_address:
+#       protocol: TCP
+#       address: 0.0.0.0
+#       port_value: 9901
 static_resources:
   listeners:
   - name: listener_0
@@ -39,9 +39,19 @@ static_resources:
           - name: envoy.filters.http.router
             typed_config:
               "@type": type.googleapis.com/envoy.extensions.filters.http.router.v3.Router
+      transport_socket:
+        name: envoy.transport_sockets.tls
+        typed_config:
+          "@type": type.googleapis.com/envoy.extensions.transport_sockets.tls.v3.DownstreamTlsContext
+          common_tls_context:
+            tls_certificates:
+            - certificate_chain:
+                filename: /etc/ssl/certs/server_cert.pem
+              private_key:
+                filename: /etc/ssl/certs/server_key.pem
   clusters:
   - name: cats_service
-    # connect_timeout: 0.25s
+    connect_timeout: 0.25s
     type: LOGICAL_DNS
     # Comment out the following line to test on v6 networks
     dns_lookup_family: V4_ONLY
