@@ -12,6 +12,6 @@ There are 2 services mounted to the gateways.
 - Docker
 - Docker compose
 
-## How to use
+## How to use
 - After checkout run `docker-compose up`
 - `curl -kv https://localhost:8000/dogs` (try different ports for the different gateways, or the /cats endpoint for a cat.
