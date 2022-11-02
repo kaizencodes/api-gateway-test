@@ -1,0 +1,82 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: Gateway
+metadata:
+  name: ingress-gateway
+spec:
+  selector:
+    istio: ingressgateway # use istio default controller
+  servers:
+  - port:
+      number: 80
+      name: http
+      protocol: HTTP
+    hosts:
+    - "example.com"
+    - "sub-domain.example.com"
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: foo
+spec:
+  hosts:
+  - "example.com"
+  gateways:
+  - ingress-gateway
+  http:
+  - match:
+    - uri:
+        exact: /foo
+    rewrite:
+      uri: "/"
+    route:
+    - destination:
+        host: foo
+        port:
+          number: 80
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: bar
+spec:
+  hosts:
+  - "example.com"
+  gateways:
+  - ingress-gateway
+  http:
+  - match:
+    - uri:
+        exact: /bar
+    rewrite:
+      uri: "/"
+    route:
+    - destination:
+        host: bar
+        port:
+          number: 80
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: sub
+spec:
+  hosts:
+  - "sub-domain.example.com"
+  gateways:
+  - ingress-gateway
+  http:
+  - match:
+    - uri:
+        exact: /
+    route:
+    - destination:
+        host: sub
+        port:
+          number: 80
+      weight: 50
+    - destination:
+        host: sub2
+        port:
+          number: 80
+      weight: 50
